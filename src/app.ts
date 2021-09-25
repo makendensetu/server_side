@@ -4,8 +4,8 @@ import cors from 'cors';
 import routeImage from './route/post';
 
 const app = express();
-
 app.use(cors());
+app.use(express.json());
 
 app.use('/images', express.static(path.resolve('./images/output')));
 app.use('/post', routeImage);

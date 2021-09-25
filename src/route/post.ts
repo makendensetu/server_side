@@ -13,6 +13,7 @@ const upload = multer({
 
 router.post('/', upload.single('image'), async (req, res) => {
   const { lat, lon } = req.body;
+  console.log(req.body);
   if (!req.file || !lat || !lon) {
     res.status(400).send('Not enough data.');
   } else {
