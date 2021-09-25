@@ -10,15 +10,7 @@ export const composite = async (
     const outputPath = path.resolve(`./images/output/${id}.png`);
     const { height, width } = await sharp(imagePath).metadata();
     if (!height || !width) throw Error('image not found');
-    const mapHeight =
-      height > width * 1.5
-        ? (width / 3) * 2
-        : height > 600
-        ? 300
-        : height > 1200
-        ? 600
-        : height / 2;
-    console.log(height);
+    const mapHeight = height > width * 1.5 ? (width / 3) * 2 : height / 2;
     const resizedMapPath = path.resolve(
       `./images/mapResized/resized_${path.basename(mapPath)}`
     );
