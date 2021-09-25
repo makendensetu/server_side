@@ -1,47 +1,7 @@
-import { SSL_OP_ALL } from 'constants';
-import { MakeImage } from './makeImage/makeimage';
-import { PrismaClient } from '@prisma/client';
+import app from './app';
 
-const prisma = new PrismaClient();
-const imager = new MakeImage();
-imager.make(35.6595327, 139.7445911);
+const PORT = 3000;
 
-const sharp = require('sharp');
-
-sharp('page-ss.png').resize(400, 400);
-
-/*sharp('tower.png')
-  .composite([
-    {
-      input: 'clone.png',
-      gravity: 'southeast',
-    },
-  ])
-  .toFile('output.png', (err: string, info: string) => {
-    if (err) {
-      throw err;
-    }
-  });
-*/
-
-async function main() {
-  // ... you will write your Prisma Client queries here
-  const allUsers = await prisma.user.create({
-    data: {
-      email: 'prisma',
-      name: 'prisma',
-    },
-  });
-
-  // use `console.dir` to print nested objects
-
-  console.dir(allUsers, { depth: null });
-}
-
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+app.listen(PORT, () => {
+  console.log(`server started on ${PORT}`);
+});

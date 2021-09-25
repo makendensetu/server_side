@@ -1,19 +1,29 @@
 import puppeteer from 'puppeteer';
+import path from 'path';
 
-const conf = { width: 800, height: 800 };
 const sleep = (msec: number) =>
   new Promise((resolve) => {
     setTimeout(resolve, msec);
   });
 
 export class MakeImage {
-  async make(lon: number, lat: number) {
-    const page = await this.setUpPage(conf.width, conf.height);
-    const html = generateHtml(lon, lat, 15);
+  constructor(public width = 600, public height = 600) {}
+  async make(lon: number, lat: number, dark = false) {
+    const page = await this.setUpPage(this.width, this.height);
+    const html = generateHtml(
+      lon,
+      lat,
+      16,
+      dark
+        ? `mapbox://styles/inaridiy/cktzbej1e0o3a17qoe8om3ttk`
+        : `mapbox://styles/inaridiy/cktzca3fp0oxg17qofnmpia4f`
+    );
     await page.setContent(html);
 
-    await sleep(1000);
-    await page.screenshot({ path: `${lon},${lat}.png` });
+    await sleep(2000);
+    const mapPath = path.resolve(`./images/map/${lon}_${lat}.png`);
+    await page.screenshot({ path: mapPath });
+    return mapPath;
   }
 
   async setUpPage(width: number, height: number) {
@@ -27,7 +37,12 @@ export class MakeImage {
   }
 }
 
-const generateHtml = (lon: number, lat: number, zoom: number) => {
+const generateHtml = (
+  lon: number,
+  lat: number,
+  zoom: number,
+  theme = `mapbox://styles/inaridiy/cktzca3fp0oxg17qofnmpia4f`
+) => {
   return `
   <!DOCTYPE html>
     <html lang='ja'>
@@ -65,7 +80,7 @@ const generateHtml = (lon: number, lat: number, zoom: number) => {
         mapboxgl.accessToken = 'pk.eyJ1IjoiaW5hcmlkaXkiLCJhIjoiY2t0emF1ZXRuMDYwcDJucXJpamgycTE3bSJ9.CqEbQXJ_yiRdUa2qFYJRnw'; 
         const map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/inaridiy/cktzca3fp0oxg17qofnmpia4f', 
+          style: '${theme}', 
           center: [${lat}, ${lon}],
           zoom: ${zoom}
         });
