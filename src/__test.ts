@@ -1,7 +1,7 @@
-import { MakeImage } from './makeImage/makeimage';
+import { MakeMapImage } from './makeImage/makeMapImage';
 import { composite } from './makeImage/composite';
 
-const mapMaker = new MakeImage(1000, 1000);
+const mapMaker = new MakeMapImage(1000, 1000);
 
 (async () => {
   const mapPath = await mapMaker.make(35.6595327, 139.7445911, false);

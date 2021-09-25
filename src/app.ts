@@ -10,5 +10,8 @@ app.use('/image', routeImage);
 app.get('/', (req, res) => {
   res.send('Hello Typescript');
 });
+app.get('/teapot', (req, res) => {
+  res.status(418).send("I'm a teapot");
+});
 
 export default app;
