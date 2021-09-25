@@ -13,7 +13,7 @@ export class MakeImage {
     await page.setContent(html);
 
     await sleep(1000);
-    await page.screenshot({ path: 'page-ss.png' });
+    await page.screenshot({ path: `${lon},${lat}.png` });
   }
 
   async setUpPage(width: number, height: number) {
